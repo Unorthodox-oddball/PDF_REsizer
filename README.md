@@ -33,36 +33,25 @@ OneNote에 PDF를 삽입할 때, 파일 용량(MB)이 작더라도 **페이지 �
 이 프로젝트를 직접 빌드하고 싶다면 다음 단계를 따르세요.
 
 1. **Clone the repository**
-   ```
+
 bash
    git clone https://github.com/your-username/pdf-dimension-resizer.git
    cd pdf-dimension-resizer
    
-```
 
 2. **Set up Virtual Environment**
-   ```
 bash
    python -m venv venv
    source venv/bin/activate  # Mac/Linux
    .\venv\Scripts\activate   # Windows
    
-```
-
 3. **Install Dependencies**
-   ```
 bash
    pip install -r requirements.txt
-   
-```
-
 4. **Build Executable**
-   ```
 bash
    pip install pyinstaller
    pyinstaller --onefile --noconsole --name "PDF_Resizer_Portable" main.py
-   
-```
 
 ## 📜 License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
