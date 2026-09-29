@@ -1,0 +1,54 @@
+import fitz  # PyMuPDF
+import tkinter as tk
+from tkinter import filedialog, messagebox, simpledialog
+import os
+
+def resize_pdf_logic(input_path, scale_factor):
+    """실제 PDF 크기를 줄이는 핵심 로직"""
+    try:
+        output_path = os.path.splitext(input_path)[0] + f"_small_{int(scale_factor*100)}.pdf"
+        src_doc = fitz.open(input_path)
+        new_doc = fitz.open()
+
+        for page_index in range(len(src_doc)):
+            src_page = src_doc[page_index]
+            src_rect = src_page.rect
+            new_width = src_rect.width * scale_factor
+            new_height = src_rect.height * scale_factor
+            new_rect = fitz.Rect(0, 0, new_width, new_height)
+            new_page = new_doc.new_page(width=new_width, height=new_height)
+            new_page.show_pdf_page(new_rect, src_doc, page_index)
+
+        new_doc.save(output_path)
+        new_doc.close()
+        src_doc.close()
+        return True, output_path
+    except Exception as e:
+        return False, str(e)
+
+def run_app():
+    # 1. 파일 선택 창 띄우기
+    root = tk.Tk()
+    root.withdraw() # 메인 윈도우는 숨김
+    
+    file_path = filedialog.askopenfilename(title="축소할 PDF 파일을 선택하세요", filetypes=[("PDF files", "*.pdf")])
+    
+    if not file_path:
+        return # 취소 시 종료
+
+    # 2. 축소 비율 입력 받기 (기본값 0.5)
+    scale = simpledialog.askfloat("축소 비율", "축소할 비율을 입력하세요 (0.1 ~ 1.0)\n예: 0.5는 50% 크기", initialvalue=0.5, minvalue=0.1, maxvalue=1.0)
+    
+    if scale is None:
+        return
+
+    # 3. 작업 진행 및 결과 알림
+    success, message = resize_pdf_logic(file_path, scale)
+    
+    if success:
+        messagebox.showinfo("완료", f"작업이 완료되었습니다!\n저장 위치: {message}")
+    else:
+        messagebox.showerror("오류", f"작업 중 오류가 발생했습니다:\n{message}")
+
+if __name__ == "__main__":
+    run_app()
