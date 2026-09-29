@@ -51,7 +51,7 @@ OneNote에 PDF를 삽입할 때, 파일 용량(MB)이 작더라도 페이지 자
 1. **Clone the repository**
    
 ```bash
-   git clone https://github.com/your-username/pdf-dimension-resizer.git
+   git clone https://github.com/Unorthodox-oddball/PDF_REsizer.git
    cd pdf-dimension-resizer
    ```
 
